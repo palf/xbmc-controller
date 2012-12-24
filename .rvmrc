@@ -1,0 +1,3 @@
+rvm --create use @server
+bundle check || (bundle install)
+
