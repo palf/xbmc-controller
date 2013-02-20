@@ -7,4 +7,5 @@ gem 'httparty'
 gem 'tvdb_party'
 gem 'thin'
 gem 'rake'
+gem 'highline'
 
