@@ -1,5 +1,4 @@
 .project
 log
 tmp
-source
-
+.DS_Store

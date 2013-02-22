@@ -7,8 +7,8 @@ module XBMC
   module Control
   
 	def xbmc 
-		@xbmc ||= 'http://localhost:8081/jsonrpc'
-#		@xbmc ||= 'http://192.168.1.76/jsonrpc'
+#		@xbmc ||= 'http://localhost:8081/jsonrpc'
+		@xbmc ||= 'http://192.168.1.76/jsonrpc'
 #		@xbmc ||= 'http://openelec/jsonrpc'
 	end
 	
