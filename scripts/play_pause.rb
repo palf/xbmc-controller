@@ -1,8 +1,5 @@
 require './lib/xbmc/control'
 
-include XBMC::Control
+xbmc = XBMC::Controller.new()
+xbmc.send_command('Player.PlayPause', {:playerid => 1} )
 
-
-send_command('Player.PlayPause', {:playerid => 1} )
-
- 

@@ -1,11 +1,11 @@
 module XBMC
   class Method
     class << self
-      def from_xbmc(array)
+      def from_json(array)
         name = array[0]
-        description = array[1]['description'] 
-        params = array[1]['params'] 
-        returns = array[1]['returns'] 
+        description = array[1]['description']
+        params = array[1]['params']
+        returns = array[1]['returns']
         type = array[1]['type']
         XBMC::Method.new(name, description, params, returns, type)
       end
@@ -29,14 +29,13 @@ class XBMC::Method
     @returns = returns
     @type = type
   end
-  
+
   def required()
     @params.select { |param| param['required'] }
   end
-  
+
   def to_s
     @command
   end
-  
+
 end
-  
