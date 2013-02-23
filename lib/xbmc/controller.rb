@@ -28,13 +28,6 @@ module XBMC
 		end
 
 
-		def do_command(method, params = {})
-			command = method.group + '.' + method.command
-			response = send_command(command, params)
-			response.parsed_response
-		end
-
-
 		def build_request_body(method, params)
 			{
 					:jsonrpc => '2.0',

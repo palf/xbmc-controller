@@ -29,5 +29,5 @@ desc 'opens up the control menu'
 task :menu do
 	controller = XBMC::Controller.new('http://localhost:8081')
 	menu = XBMC::Menu.new(controller)
-	menu.run
+	menu.start()
 end

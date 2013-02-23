@@ -5,9 +5,15 @@ require './lib/xbmc/method'
 
 module XBMC
 	class Menu
+	
+		def initialize(controller)
+			@controller = controller
+			@high = HighLine.new()
+		end
+	
 
-		def start(xbmc)
-			@data = xbmc.send_command('JSONRPC.Introspect').parsed_response['result']
+		def start()
+			@data = @controller.send_command('JSONRPC.Introspect').parsed_response['result']
 			@types = @data['types']
 			@methods = {}
 
@@ -17,11 +23,8 @@ module XBMC
 				@methods[method.group] << method
 			}
 
-
-			@high = HighLine.new()
-			m = select_from(@methods)
-
-			p run(m)
+			chosen_method = select_from(@methods)
+			run(chosen_method)
 		end
 
 
@@ -92,9 +95,13 @@ module XBMC
 				value = validate(value, type_def)
 				params[name] = value
 			}
-			r = do_command(method, params)
-			raise r.to_s if r['error']
-			r['result']
+			p method
+			command = method.group + '.' + method.command
+			response = @controller.send_command(command, params).parsed_response
+			raise response.to_s if response['error']
+			result = response['result']
+			p result
+			result
 		end
 
 
