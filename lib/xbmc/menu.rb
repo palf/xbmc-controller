@@ -89,10 +89,10 @@ module XBMC
 			method.required.each { |required_param|
 				p required_param
 				name = required_param['name']
-				type_def = (@types[required_param['$ref']])
-				p "TYPE DEF : #{type_def}"
-				value = @high.ask('Enter a value for : ' + name)
-				value = validate(value, type_def)
+				type = required_param['type']
+				type_def = (@types[required_param['items']['$ref']])
+				value = @high.ask('Enter a value for ' + name + '; must be ' + type)
+				value = convert(value, type)
 				params[name] = value
 			}
 			p method
