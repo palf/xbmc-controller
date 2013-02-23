@@ -7,7 +7,7 @@ module XBMC
 	class Controller
 
 		def initialize(xbmc_url)
-			@xbmc_url = xbmc_url
+			@xbmc_url = xbmc_url + '/jsonrpc'
 		end
 
 
@@ -24,7 +24,7 @@ module XBMC
 
 		def send_command(method, params = {})
 			body = build_request_body(method, params)
-			HTTParty.post(xbmc, :body => body, :headers => headers)
+			HTTParty.post(@xbmc_url, :body => body, :headers => headers)
 		end
 
 
