@@ -6,12 +6,8 @@ require 'json'
 module XBMC
 	class Controller
 
-
-		def init(xbmc_url)
+		def initialize(xbmc_url)
 			@xbmc_url = xbmc_url
-			#@xbmc ||= 'http://localhost:7001/jsonrpc'
-			#@xbmc ||= 'http://192.168.1.76/jsonrpc'
-			#@xbmc ||= 'http://openelec/jsonrpc'
 		end
 
 
