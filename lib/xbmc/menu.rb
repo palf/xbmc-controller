@@ -90,7 +90,6 @@ module XBMC
 				p required_param
 				name = required_param['name']
 				type = required_param['type']
-				type_def = (@types[required_param['items']['$ref']])
 				value = @high.ask('Enter a value for ' + name + '; must be ' + type)
 				value = convert(value, type)
 				params[name] = value
