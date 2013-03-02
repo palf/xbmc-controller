@@ -1,16 +1,15 @@
 require 'highline'
-
-require './lib/xbmc/method'
+require 'xbmc/method'
 
 
 module XBMC
 	class Menu
-	
+
 		def initialize(controller)
 			@controller = controller
 			@high = HighLine.new()
 		end
-	
+
 
 		def start()
 			@data = @controller.send_command('JSONRPC.Introspect').parsed_response['result']

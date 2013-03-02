@@ -14,4 +14,7 @@ Gem::Specification.new do |gem|
 	gem.name = "xbmc_controller"
 	gem.require_paths = ["lib"]
 	gem.version = XBMC::VERSION
+
+	gem.add_dependency 'httparty'
+	gem.add_dependency 'highline' #TODO : remove this dependency
 end
