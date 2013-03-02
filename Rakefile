@@ -2,7 +2,7 @@
 namespace :gem do
 	require 'bundler/gem_tasks'
 end
-require './lib/xbmc'
+require 'xbmc'
 
 
 @xbmc_location = 'http://localhost:8081'
@@ -37,10 +37,14 @@ task :youtube, :video_id do |task, args|
 	puts "playing video with id: #{video_id}"
 
 	controller = XBMC::Controller.new(@xbmc_location)
-	controller.send_command('Playlist.Clear', {:playlistid => 1})
-	controller.send_command('Playlist.Add', {:playlistid => 1, :item => {:file => youtube_plugin_command}})
-	controller.send_command('Player.GetActivePlayers')
-	controller.send_command('Player.Open', {:item => {:playlistid => 1, :position => 0}})
+	playlist = XBMC::Playlist.new(controller)
+	player = XBMC::Player.new(controller)
+
+	playlist.clear()
+	playlist.add(youtube_plugin_command)
+	player.get_active_players()
+	player.stop()
+	player.open(playlist)
 end
 
 

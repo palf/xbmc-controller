@@ -1,3 +1,10 @@
+PATH
+  remote: .
+  specs:
+    xbmc_controller (0.0.1)
+      highline
+      httparty
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -53,3 +60,4 @@ DEPENDENCIES
   rspec
   tvdb_party
   webmock
+  xbmc_controller!
