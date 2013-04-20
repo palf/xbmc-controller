@@ -1,20 +1,11 @@
 require 'webmock/rspec'
 
-require './lib/xbmc/client'
-
-
-
-def create_stub_request(type, body=nil, status=200)
-  stub_request(type, "http://xbmc.server:8080/jsonrpc").
-      #with(:headers => {'Accept'=>'*/*'}).
-      to_return(:status => status, :body => body)
-end
-
+require 'xbmc/client'
 
 
 describe XBMC::Client do
 
-  context :initialize do
+  describe '#initialize' do
     it 'appends /jsonrpc to the server url automatically' do
       stub_request(:post, "http://xbmc.server:8080/jsonrpc").
         to_return(:status => 200, :body => nil)
@@ -24,7 +15,7 @@ describe XBMC::Client do
     end
   end
 
-  context :send_command do
+  describe '#send_command' do
     it 'builds a request body containing the method name and parameters' do
       stub_request(:post, "http://xbmc.server:8080/jsonrpc").
         to_return(:status => 200, :body => nil)
@@ -64,7 +55,7 @@ describe XBMC::Client do
     end
   end
 
-  context :introspect do
+  describe '#introspect' do
     it 'passes JSONRPC.Introspect as a method name' do
       stub_request(:post, "http://xbmc.server:8080/jsonrpc").
         to_return(:status => 200, :body => nil)

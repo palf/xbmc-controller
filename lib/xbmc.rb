@@ -8,18 +8,9 @@ require 'xbmc/playlist'
 module XBMC
 
   def self.connect(server)
-    client = create_client(server)
-    introspection = run_introspect(client)
+    client = XBMC::Client.new(server)
+    introspection = client.introspect()
     run_converter(introspection)
-  end
-
-
-  def self.create_client(server)
-    XBMC::Client.new(server)
-  end
-
-  def self.run_introspect(client)
-    client.introspect()
   end
 
 end

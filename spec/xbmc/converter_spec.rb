@@ -1,45 +1,45 @@
-require './lib/xbmc/converter'
+# require './lib/xbmc/converter'
 
 
 
-def no_params()
-  {
-    "description" => "Quit application",
-    "params" => [],
-    "returns" => {
-      "type" => "string"
-    },
-    "type" => "method"
-  }
-end
+# def no_params()
+#   {
+#     "description" => "Quit application",
+#     "params" => [],
+#     "returns" => {
+#       "type" => "string"
+#     },
+#     "type" => "method"
+#   }
+# end
 
 
-describe XBMC::Converter do
+# describe XBMC::Converter do
 
-  context 'when given no params' do
-    it 'creates a description property' do
-      parsed_response = no_params
-      converter = XBMC::Converter.new()
-      result = converter.convert(parsed_response)
+#   context 'when given no params' do
+#     it 'creates a description property' do
+#       parsed_response = no_params
+#       converter = XBMC::Converter.new()
+#       result = converter.convert(parsed_response)
 
-      result.description.should == 'Quit application'
-    end
+#       result.description.should == 'Quit application'
+#     end
 
-    it 'takes no arguments' do
-      parsed_response = no_params
-      converter = XBMC::Converter.new()
-      result = converter.convert(parsed_response)
+#     it 'takes no arguments' do
+#       parsed_response = no_params
+#       converter = XBMC::Converter.new()
+#       result = converter.convert(parsed_response)
 
-      result.arguments.should == []
-    end
+#       result.arguments.should == []
+#     end
 
-    it 'returns a string' do
-      parsed_response = no_params
-      converter = XBMC::Converter.new()
-      result = converter.convert(parsed_response)
+#     it 'returns a string' do
+#       parsed_response = no_params
+#       converter = XBMC::Converter.new()
+#       result = converter.convert(parsed_response)
 
-      result.return_type.should == 'string'
-    end
-  end
+#       result.return_type.should == 'string'
+#     end
+#   end
 
-end
+# end
