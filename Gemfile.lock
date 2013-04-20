@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xbmc_controller (0.0.1)
+    xbmc_controller (0.2.0)
       highline
       httparty
 
