@@ -1,3 +1,0 @@
-rvm --create use @gem_development
-bundle check || (bundle install)
-
