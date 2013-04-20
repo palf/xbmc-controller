@@ -1,4 +1,3 @@
-
 module XBMC
   class Playlist
     attr_reader :playlist_id

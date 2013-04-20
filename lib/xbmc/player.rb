@@ -1,4 +1,3 @@
-
 module XBMC
   class Player
     def initialize(controller)

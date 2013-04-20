@@ -1,5 +1,4 @@
 require 'webmock/rspec'
-
 require 'xbmc/client'
 
 

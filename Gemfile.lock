@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xbmc_controller (0.2.0)
+    xbmc_controller (0.1.0)
       highline
       httparty
 
@@ -42,8 +42,6 @@ GEM
     rspec-expectations (2.12.1)
       diff-lcs (~> 1.1.3)
     rspec-mocks (2.12.2)
-    tvdb_party (0.6.2)
-      httparty (>= 0.6.1)
     webmock (1.9.3)
       addressable (>= 2.2.7)
       crack (>= 0.3.2)
@@ -58,6 +56,5 @@ DEPENDENCIES
   httparty
   rake
   rspec
-  tvdb_party
   webmock
   xbmc_controller!

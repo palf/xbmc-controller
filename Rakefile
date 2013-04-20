@@ -1,19 +1,16 @@
+require 'xbmc'
+
 
 namespace :gem do
 	require 'bundler/gem_tasks'
 end
 
-require 'xbmc'
+
+@xbmc_location = ENV['XBMC_LOCATION'] || 'http://openelec.home'
+
+task :default => :youtube
 
 
-# @xbmc_location = 'http://localhost:8081'
-# @xbmc_location = 'http://192.168.1.76'
-@xbmc_location = 'http://openelec.home'
-
-task :default => :menu
-
-
-desc 'plays a video from iPlayer'
 task :iplayer, :pid do |task, args|
 	raise 'only works when the iplayer content is valid (1 week)'
 	pid = args[:pid] || 'p013mrl8'
@@ -43,13 +40,9 @@ task :youtube, :video_id do |task, args|
 	playlist = XBMC::Playlist.new(client)
 	player = XBMC::Player.new(client)
 
-	p playlist.clear()
-	p playlist.add(youtube_plugin_command)
-	p player.get_active_players()
-	p player.stop()
-	p playlist
-	p player.open(playlist)
-p :l
+	playlist.clear()
+	playlist.add(youtube_plugin_command)
+	player.open(playlist)
 end
 
 
@@ -69,20 +62,6 @@ task :menu do
 	menu.start()
 end
 
-
-
-
-class XBMC::Input
-	def initialize(client)
-		@client = client
-	end
-	def left
-		@client.send_command('Input.Left')
-	end
-	def right
-		@client.send_command('Input.Right')
-	end
-end
 
 
 desc 'presses left'
