@@ -11,18 +11,36 @@ module XBMC
 		end
 
 		def send_command(method, params = {})
-			body = build_request_body(method, params)
-			headers = {'content-type' => 'application/json'}
-			response = HTTParty.post(@xbmc_url, :body => body, :headers => headers)
+			response = make_request(method, params)
+			result = parse_response(response)
+		end
+
+		def parse_response(response)
 			if response.code == 200
-				response.parsed_response
+				body = response.parsed_response
+				if body.has_key?('result')
+					body['result']
+				elsif body.has_key?('error')
+					body['error']
+				end
 			else
 				raise "http error : #{response.code}"
 			end
 		end
 
+		def make_request(method, params)
+			body = build_request_body(method, params)
+			headers = {'content-type' => 'application/json'}
+			begin
+				HTTParty.post(@xbmc_url, :body => body, :headers => headers)
+			rescue
+				raise 'http error'
+			end
+		end
+
 		def ping()
-			send_command('JSONRPC.Ping', {})
+			response = send_command('JSONRPC.Ping', {})
+		  response['result']
 		end
 
 		def introspect()

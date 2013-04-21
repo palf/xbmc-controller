@@ -9,4 +9,5 @@ gem 'aruba'
 gem 'webmock'
 gem 'httparty'
 gem 'highline'
+gem 'bdd_server'
 

@@ -12,6 +12,10 @@ describe XBMC::Client do
     )
   end
 
+  def stub_missing()
+    stub_request(:post, "#{server}/jsonrpc").to_raise(ConnectionError)
+  end
+
 
   let(:server) { 'http://xbmc.server:8080' }
   let(:client) { XBMC::Client.new(server) }
@@ -48,12 +52,13 @@ describe XBMC::Client do
     end
 
     it 'fails if cant find an xbmc instance' do
-      stub_post(404)
-
+      # stub_missing()
       lambda {
-        client.introspect()
-      }.should raise_error(StandardError, 'http error : 404')
+        client.send_command('test')
+      }.should raise_error()
     end
+
+
   end
 
 

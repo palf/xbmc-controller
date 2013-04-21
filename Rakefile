@@ -58,7 +58,7 @@ namespace :xbmc do
 	desc 'pings the client'
 	task :ping do
 		client = XBMC::Client.new(@xbmc_location)
-		client.ping()
+		p client.ping()
 	end
 
 
