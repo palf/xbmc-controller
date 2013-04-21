@@ -1,4 +1,25 @@
 require 'xbmc'
+require 'rspec/core/rake_task'
+require 'cucumber/rake/task'
+
+
+namespace :test do
+	RSpec::Core::RakeTask.new { |task|
+		task.rspec_opts = ['--color', '--format', 'documentation']
+	}
+
+	Cucumber::Rake::Task.new(:features, 'run Cucumber and store a junit report') do |task|
+		task.fork = false
+		task.cucumber_opts = [
+				'--format', 'junit',
+				'--out', 'reports/junit',
+				'--format', 'pretty',
+				'--strict'
+		]
+	end
+end
+
+
 
 
 namespace :gem do
@@ -8,7 +29,7 @@ end
 
 @xbmc_location = ENV['XBMC_LOCATION'] || 'http://openelec.home'
 
-task :default => :youtube
+task :default => 'test:spec'
 
 
 task :iplayer, :pid do |task, args|
