@@ -1,4 +1,5 @@
 # XBMC Controller
+[![Build Status](https://travis-ci.org/palf/xbmc_controller.png?branch=master)](https://travis-ci.org/palf/xbmc_controller)
 
 A Ruby controller for XBMC. Comes with some Rake tasks for common use cases, like launching a YouTube video.
 
