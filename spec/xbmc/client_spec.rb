@@ -4,75 +4,75 @@ require 'xbmc/client'
 
 describe XBMC::Client do
 
-  describe '#initialize' do
-    it 'appends /jsonrpc to the server url automatically' do
-      stub_request(:post, "http://xbmc.server:8080/jsonrpc").
-        to_return(:status => 200, :body => nil)
-
-      XBMC::Client.new('http://xbmc.server:8080').introspect()
-      assert_requested(:post, 'http://xbmc.server:8080/jsonrpc')
-    end
-
-    it 'fails if cant find' do
-      stub_request(:post, "http://xbmc.server:8080/jsonrpc").
-        to_return(:status => 404)
-
-      lambda {
-        XBMC::Client.new('http://xbmc.server:8080').introspect()
-      }.should raise_error(StandardError, 'http error : 404')
-    end
+  def stub_post(status=200, body=nil)
+    stub_request(:post, "#{server}/jsonrpc").to_return(
+      :status => status,
+      :body => body.to_json,
+      :headers => {'content-type' => 'application/json'}
+    )
   end
 
+
+  let(:server) { 'http://xbmc.server:8080' }
+  let(:client) { XBMC::Client.new(server) }
+
+
   describe '#send_command' do
+    it 'posts to the configured server url' do
+      stub_post()
+      client.send_command('test')
+      a_request(:post, "#{server}/jsonrpc").should have_been_made
+    end
+
     it 'builds a request body containing the method name and parameters' do
-      stub_request(:post, "http://xbmc.server:8080/jsonrpc").
-        to_return(:status => 200, :body => nil)
-
+      stub_post()
       expected_body = {:jsonrpc => '2.0', :id => 1, :method => 'test', :params => {}}.to_json
-
-      XBMC::Client.new('http://xbmc.server:8080').send_command('test')
-      a_request(:post, 'http://xbmc.server:8080/jsonrpc').with(:body => expected_body).should have_been_made
+      client.send_command('test')
+      a_request(:post, "#{server}/jsonrpc").with(:body => expected_body).should have_been_made
     end
 
     it 'adds headers to specify json content' do
-      stub_request(:post, "http://xbmc.server:8080/jsonrpc").
-        to_return(:status => 200, :body => nil)
-
+      stub_post()
       expected_header = {'Content-Type' => 'application/json'}
-
-      XBMC::Client.new('http://xbmc.server:8080').send_command('test')
-      a_request(:post, 'http://xbmc.server:8080/jsonrpc').with(:header => expected_header).should have_been_made
-    end
-
-    it 'posts to the configured server url' do
-      stub_request(:post, "http://xbmc.server:8080/jsonrpc").
-        to_return(:status => 200, :body => nil)
-
-      XBMC::Client.new('http://xbmc.server:8080').send_command('test')
-      a_request(:post, 'http://xbmc.server:8080/jsonrpc').should have_been_made
+      client.send_command('test')
+      a_request(:post, "#{server}/jsonrpc").with(:header => expected_header).should have_been_made
     end
 
     it 'returns the parsed response as an object' do
       dummy_object = {'name' => 'addonid', 'type' => 'string'}
-      stub_request(:post, "http://xbmc.server:8080/jsonrpc").
-        to_return(:status => 200, :body => dummy_object.to_json, :headers => {'content-type' => 'application/json'})
+      stub_post(200, dummy_object)
 
-      response = XBMC::Client.new('http://xbmc.server:8080').send_command('test')
+      response = client.send_command('test')
       response.should be_a(Hash), "response was a #{response.class}"
       response.should == dummy_object
     end
+
+    it 'fails if cant find an xbmc instance' do
+      stub_post(404)
+
+      lambda {
+        client.introspect()
+      }.should raise_error(StandardError, 'http error : 404')
+    end
   end
+
+
+  describe '#ping' do
+    it 'appends /jsonrpc to the server url automatically' do
+      stub_post()
+      expected_body = {:jsonrpc => '2.0', :id => 1, :method => 'JSONRPC.Ping', :params => {}}.to_json
+      client.ping()
+      a_request(:post, "#{server}/jsonrpc").with(:body => expected_body).should have_been_made
+    end
+  end
+
 
   describe '#introspect' do
     it 'passes JSONRPC.Introspect as a method name' do
-      stub_request(:post, "http://xbmc.server:8080/jsonrpc").
-        to_return(:status => 200, :body => nil)
-
+      stub_post()
       expected_body = {:jsonrpc => '2.0', :id => 1, :method => 'JSONRPC.Introspect', :params => {}}.to_json
-
-      XBMC::Client.new('http://xbmc.server:8080').introspect()
-      a_request(:post, 'http://xbmc.server:8080/jsonrpc').with(:body => expected_body).should have_been_made
-
+      client.introspect()
+      a_request(:post, "#{server}/jsonrpc").with(:body => expected_body).should have_been_made
     end
   end
 

@@ -5,14 +5,14 @@ require 'xbmc/method'
 module XBMC
 	class Menu
 
-		def initialize(controller)
-			@controller = controller
+		def initialize(client)
+			@client = client
 			@high = HighLine.new()
 		end
 
 
 		def start()
-			@data = @controller.send_command('JSONRPC.Introspect').parsed_response['result']
+			@data = @client.introspect()['result']
 			@types = @data['types']
 			@methods = {}
 
@@ -95,7 +95,7 @@ module XBMC
 			}
 			p method
 			command = method.group + '.' + method.command
-			response = @controller.send_command(command, params).parsed_response
+			response = @client.send_command(command, params).parsed_response
 			raise response.to_s if response['error']
 			result = response['result']
 			p result

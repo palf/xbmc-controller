@@ -3,6 +3,7 @@ require 'xbmc/method'
 require 'xbmc/menu'
 require 'xbmc/player'
 require 'xbmc/playlist'
+require 'xbmc/input'
 
 
 module XBMC
