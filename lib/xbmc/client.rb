@@ -14,7 +14,11 @@ module XBMC
 			body = build_request_body(method, params)
 			headers = {'content-type' => 'application/json'}
 			response = HTTParty.post(@xbmc_url, :body => body, :headers => headers)
-			response.parsed_response
+			if response.code == 200
+				response.parsed_response
+			else
+				raise "http error : #{response.code}"
+			end
 		end
 
 		def introspect()

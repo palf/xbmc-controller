@@ -12,6 +12,15 @@ describe XBMC::Client do
       XBMC::Client.new('http://xbmc.server:8080').introspect()
       assert_requested(:post, 'http://xbmc.server:8080/jsonrpc')
     end
+
+    it 'fails if cant find' do
+      stub_request(:post, "http://xbmc.server:8080/jsonrpc").
+        to_return(:status => 404)
+
+      lambda {
+        XBMC::Client.new('http://xbmc.server:8080').introspect()
+      }.should raise_error(StandardError, 'http error : 404')
+    end
   end
 
   describe '#send_command' do
