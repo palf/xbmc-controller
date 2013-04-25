@@ -30,8 +30,6 @@ module XBMC
     end
 
     def open(item)
-      #item = {:playlistid => playlist.playlist_id, :position => 0}
-      # args = {:item => item}
       args = {:item => {:playlistid => 1}}
       @controller.send_command('Player.Open', args)
     end

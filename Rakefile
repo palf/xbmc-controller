@@ -3,8 +3,11 @@ require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
 
 
-task :default => 'test:spec'
+task :default => 'test:all'
+
 @xbmc_location = ENV['XBMC_LOCATION'] || 'http://openelec.home'
+@controller = XBMC::Controller.new(@xbmc_location)
+@client = XBMC::Client.new(@xbmc_location)
 
 
 namespace :gem do
@@ -34,54 +37,49 @@ end
 namespace :xbmc do
 	desc 'plays a video from YouTube'
 	task :youtube, :video_id do |task, args|
-		video_id = args[:video_id] || 'K26dgShCL60'
-		youtube_plugin_command = "plugin://plugin.video.youtube/?action=play_video&videoid=#{video_id}"
-		puts "playing video with id: #{video_id}"
+		video_id = args[:video_id] || 'o0I0EMvQnv8'
+		link = "plugin://plugin.video.youtube/?action=play_video&videoid=#{video_id}"
+		@controller.play(link)
+	end
 
-		client = XBMC::Client.new(@xbmc_location)
-		playlist = XBMC::Playlist.new(client)
-		player = XBMC::Player.new(client)
 
-		playlist.clear()
-		playlist.add(youtube_plugin_command)
-		player.open(playlist)
+	desc 'plays a video from iPlayer'
+	task :iplayer, :pid do |task, args|
+		pid = args[:pid] || 'b01s5hth' #raise('no pid provided')
+		link = "plugin://plugin.video.iplayer.palf/?pid=#{pid}"
+		@controller.play(link)
 	end
 
 
 	desc 'toggles between play and pause'
 	task :play do
-		client = XBMC::Client.new(@xbmc_location)
-		client.send_command('Player.PlayPause', {:playerid => 1} )
+		@client.send_command('Player.PlayPause', {:playerid => 1} )
 	end
 
 
-	desc 'pings the client'
+	desc 'pings the @client'
 	task :ping do
-		client = XBMC::Client.new(@xbmc_location)
-		p client.ping()
+		p @client.ping()
 	end
 
 
 	desc 'opens up the control menu'
 	task :menu do
-		client = XBMC::Client.new(@xbmc_location)
-		menu = XBMC::Menu.new(client)
+		menu = XBMC::Menu.new(@client)
 		menu.start()
 	end
 
 
 	desc 'presses left'
 	task :left do
-		client = XBMC::Client.new(@xbmc_location)
-		input = XBMC::Input.new(client)
+		input = XBMC::Input.new(@client)
 		input.left()
 	end
 
 
 	desc 'presses right'
 	task :right do
-		client = XBMC::Client.new(@XBMC_LOCATION)
-		input = XBMC::Input.new(client)
+		input = XBMC::Input.new(@client)
 		input.right()
 	end
 end

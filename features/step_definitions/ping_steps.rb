@@ -17,6 +17,10 @@ When(/^I call the ping method$/) do
   @actions << lambda { @client.ping() }
 end
 
+When(/^I call the '(.+)' method$/) do |method|
+  @actions << lambda { @client.send_command(method) }
+end
+
 When(/^I get the response '(.+)'$/) do |response|
   result = @actions.shift().call
   result.should == response

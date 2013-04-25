@@ -39,8 +39,7 @@ module XBMC
 		end
 
 		def ping()
-			response = send_command('JSONRPC.Ping', {})
-		  response['result']
+			send_command('JSONRPC.Ping', {})
 		end
 
 		def introspect()
