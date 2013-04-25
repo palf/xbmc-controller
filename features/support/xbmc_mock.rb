@@ -9,10 +9,6 @@ class XBMCMock < BDDServer::HandlerBase
     [200, header, body]
   end
 
-  def has_received?(value)
-    @last_post['method'] == value
-  end
-
   def last_method()
     @last_post['method']
   end
