@@ -19,5 +19,13 @@ module XBMC
     def right
       @client.send_command('Input.Right')
     end
+
+    def back
+      @client.send_command('Input.Back')
+    end
+
+    def home
+      @client.send_command('Input.Home')
+    end
   end
 end
